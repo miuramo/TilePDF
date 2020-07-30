@@ -1446,6 +1446,17 @@ gulp.task("server", function () {
   server.start();
 });
 
+gulp.task("openserver", function () {
+  console.log();
+  console.log("### Starting local server");
+
+  var WebServer = require("./test/webserver.js").WebServer;
+  var server = new WebServer();
+  server.host = "0.0.0.0";
+  server.port = 18888;
+  server.start();
+});
+
 gulp.task("clean", function (done) {
   console.log();
   console.log("### Cleaning up project builds");

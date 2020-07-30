@@ -39,7 +39,7 @@ const defaultOptions = {
   },
   defaultZoomValue: {
     /** @type {string} */
-    value: "",
+    value: "tile",
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE,
   },
   disableCreateObjectURL: {
@@ -137,7 +137,7 @@ const defaultOptions = {
   },
   scrollModeOnLoad: {
     /** @type {number} */
-    value: -1,
+    value: 2, /* original was -1 */
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE,
   },
   spreadModeOnLoad: {
