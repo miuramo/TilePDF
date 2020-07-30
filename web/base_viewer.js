@@ -206,13 +206,27 @@ class BaseViewer {
     });
   }
 
+    get currentTileNum(){
+	return this._currentTileNum;
+    }
+  /**
+   * @type {number}
+   */
+    set currentTileNum(val){
+	if (!this.pdfDocument) {
+	    return;
+	}
+	this._currentTileNum = val;
+	this._setScale("tileauto", false);
+    }
+
   /**
    * @type {number}
    */
   get currentPageNumber() {
     return this._currentPageNumber;
   }
-
+    
   /**
    * @param {number} val - The page number.
    */
@@ -593,6 +607,7 @@ class BaseViewer {
   _resetView() {
     this._pages = [];
     this._currentPageNumber = 1;
+    if (isNaN(this._currentTileNum)) this._currentTileNum = 3;
     this._currentScale = UNKNOWN_SCALE;
     this._currentScaleValue = null;
     this._pageLabels = null;
@@ -720,6 +735,11 @@ class BaseViewer {
         case "page-fit":
           scale = Math.min(pageWidthScale, pageHeightScale);
           break;
+        case "tileauto":
+	  const originPageWidth = currentPage.width / currentPage.scale;
+	  const val = this.currentTileNum;
+          scale = (this.container.clientWidth -2 - val *2) / (originPageWidth * val);
+	  break;
         case "auto":
           // For pages in landscape mode, fit the page height to the viewer
           // *unless* the page would thus become too wide to fit horizontally.

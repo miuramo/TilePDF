@@ -14,7 +14,7 @@
  */
 
 const CSS_UNITS = 96.0 / 72.0;
-const DEFAULT_SCALE_VALUE = "auto";
+const DEFAULT_SCALE_VALUE = "tileauto";
 const DEFAULT_SCALE = 1.0;
 const MIN_SCALE = 0.1;
 const MAX_SCALE = 10.0;

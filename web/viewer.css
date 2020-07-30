@@ -1014,6 +1014,12 @@ html[dir='rtl'] .verticalToolbarSeparator {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
+.toolbarRange {
+    direction: rtl;
+    margin: 6px;
+    padding: 1px;
+    width: 200px;
+}
 .toolbarField {
   padding: 3px 6px;
   margin: 4px 0 4px 0;

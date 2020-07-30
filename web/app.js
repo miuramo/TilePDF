@@ -536,6 +536,11 @@ const PDFViewerApplication = {
     return this._initializedCapability.promise;
   },
 
+  setTileNum(tilenum){
+      this.pdfViewer.currentTileNum = tilenum;
+      this.toolbar.setTileNumber(tilenum, tilenum);
+  },
+
   zoomIn(ticks) {
     if (this.pdfViewer.isInPresentationMode) {
       return;
@@ -1680,6 +1685,7 @@ const PDFViewerApplication = {
     eventBus._on("zoomout", webViewerZoomOut);
     eventBus._on("zoomreset", webViewerZoomReset);
     eventBus._on("pagenumberchanged", webViewerPageNumberChanged);
+    eventBus._on("tilenumberchanged", webViewerTileNumberChanged);
     eventBus._on("scalechanged", webViewerScaleChanged);
     eventBus._on("rotatecw", webViewerRotateCw);
     eventBus._on("rotateccw", webViewerRotateCcw);
@@ -1755,6 +1761,7 @@ const PDFViewerApplication = {
     eventBus._off("zoomout", webViewerZoomOut);
     eventBus._off("zoomreset", webViewerZoomReset);
     eventBus._off("pagenumberchanged", webViewerPageNumberChanged);
+    eventBus._off("tilenumberchanged", webViewerTileNumberChanged);
     eventBus._off("scalechanged", webViewerScaleChanged);
     eventBus._off("rotatecw", webViewerRotateCw);
     eventBus._off("rotateccw", webViewerRotateCcw);
@@ -2189,6 +2196,7 @@ function webViewerResize() {
   }
   const currentScaleValue = pdfViewer.currentScaleValue;
   if (
+    currentScaleValue === "tileauto" ||
     currentScaleValue === "auto" ||
     currentScaleValue === "page-fit" ||
     currentScaleValue === "page-width"
@@ -2310,6 +2318,9 @@ function webViewerPageNumberChanged(evt) {
     );
   }
 }
+function webViewerTileNumberChanged(evt) {
+  PDFViewerApplication.setTileNum(evt.value);
+}
 function webViewerScaleChanged(evt) {
   PDFViewerApplication.pdfViewer.currentScaleValue = evt.value;
 }
@@ -2387,7 +2398,6 @@ function webViewerRotationChanging(evt) {
 
 function webViewerPageChanging(evt) {
   const page = evt.pageNumber;
-
   PDFViewerApplication.toolbar.setPageNumber(page, evt.pageLabel || null);
   PDFViewerApplication.secondaryToolbar.setPageNumber(page);
 
@@ -2757,8 +2767,13 @@ function webViewerKeyDown(evt) {
       case 115: // F4
         PDFViewerApplication.pdfSidebar.toggle();
         break;
-    }
 
+    }
+      // set tileNum ([1]--[9] num keys)
+      if (49 <= evt.keyCode && evt.keyCode < 58){
+	  PDFViewerApplication.setTileNum( evt.keyCode - 48 );
+      }
+      
     if (
       turnPage !== 0 &&
       (!turnOnlyIfPageFit || pdfViewer.currentScaleValue === "page-fit")

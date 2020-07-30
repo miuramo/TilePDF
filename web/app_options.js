@@ -34,12 +34,13 @@ const defaultOptions = {
   },
   defaultUrl: {
     /** @type {string} */
-    value: "compressed.tracemonkey-pldi-09.pdf",
+//  value: "compressed.tracemonkey-pldi-09.pdf",
+    value: "tilepdf_welcome.pdf",
     kind: OptionKind.VIEWER,
   },
   defaultZoomValue: {
     /** @type {string} */
-    value: "tile",
+    value: "tileauto",
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE,
   },
   disableCreateObjectURL: {

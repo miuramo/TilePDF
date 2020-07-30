@@ -79,6 +79,7 @@ class Toolbar {
     this.items = {
       numPages: options.numPages,
       pageNumber: options.pageNumber,
+      tileNumber: options.tileNumber,
       scaleSelectContainer: options.scaleSelectContainer,
       scaleSelect: options.scaleSelect,
       customScaleOption: options.customScaleOption,
@@ -95,6 +96,10 @@ class Toolbar {
     this._bindListeners();
   }
 
+  setTileNumber(tileNumber, tileLabel) {
+    this.items.tileNumber.value = tileNumber;
+  }
+
   setPageNumber(pageNumber, pageLabel) {
     this.pageNumber = pageNumber;
     this.pageLabel = pageLabel;
@@ -106,6 +111,7 @@ class Toolbar {
     this.hasPageLabels = hasPageLabels;
     this._updateUIState(true);
   }
+
 
   setPageScale(pageScaleValue, pageScale) {
     this.pageScaleValue = (pageScaleValue || pageScale).toString();
@@ -142,6 +148,14 @@ class Toolbar {
     });
     pageNumber.addEventListener("change", function () {
       self.eventBus.dispatch("pagenumberchanged", {
+        source: self,
+        value: this.value,
+      });
+    });
+
+    // moving range (slider) input event
+    tileNumber.addEventListener("input", function () {
+      self.eventBus.dispatch("tilenumberchanged", {
         source: self,
         value: this.value,
       });
