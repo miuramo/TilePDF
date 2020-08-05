@@ -227,27 +227,30 @@ class PDFPresentationMode {
    * @private
    */
   _enter() {
-    this.active = true;
-    this._resetSwitchInProgress();
-    this._notifyStateChange();
-    this.container.classList.add(ACTIVE_SELECTOR);
+    // do not enter `Presentation Mode' when "tileauto" is selected.	
+    if (this.pdfViewer.currentScaleValue != "tileauto"){
+	this.active = true;
+	this._resetSwitchInProgress();
+	this._notifyStateChange();
+	this.container.classList.add(ACTIVE_SELECTOR);
 
-    // Ensure that the correct page is scrolled into view when entering
-    // Presentation Mode, by waiting until fullscreen mode in enabled.
-    setTimeout(() => {
-      this.pdfViewer.currentPageNumber = this.args.page;
-      this.pdfViewer.currentScaleValue = "page-fit";
-    }, 0);
-
-    this._addWindowListeners();
-    this._showControls();
-    this.contextMenuOpen = false;
-    this.container.setAttribute("contextmenu", "viewerContextMenu");
-
-    // Text selection is disabled in Presentation Mode, thus it's not possible
-    // for the user to deselect text that is selected (e.g. with "Select all")
-    // when entering Presentation Mode, hence we remove any active selection.
-    window.getSelection().removeAllRanges();
+	// Ensure that the correct page is scrolled into view when entering
+	// Presentation Mode, by waiting until fullscreen mode in enabled.
+	setTimeout(() => {
+	    this.pdfViewer.currentPageNumber = this.args.page;
+	    this.pdfViewer.currentScaleValue = "page-fit";
+	}, 0);
+	
+	this._addWindowListeners();
+	this._showControls();
+	this.contextMenuOpen = false;
+	this.container.setAttribute("contextmenu", "viewerContextMenu");
+	
+	// Text selection is disabled in Presentation Mode, thus it's not possible
+	// for the user to deselect text that is selected (e.g. with "Select all")
+	// when entering Presentation Mode, hence we remove any active selection.
+	window.getSelection().removeAllRanges();
+    }
   }
 
   /**
