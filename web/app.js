@@ -2516,11 +2516,11 @@ function webViewerKeyUp(evt) {
 
 function webViewerKeyDown(evt) {
   if (PDFViewerApplication.overlayManager.active) {
-    return;
+      return;
   }
 
   let handled = false,
-    ensureViewerFocused = false;
+      ensureViewerFocused = false;
   const cmd =
     (evt.ctrlKey ? 1 : 0) |
     (evt.altKey ? 2 : 0) |
@@ -2643,12 +2643,17 @@ function webViewerKeyDown(evt) {
     }
   }
 
-  if (handled) {
+    if (handled) {
     if (ensureViewerFocused && !isViewerInPresentationMode) {
       pdfViewer.focus();
     }
     evt.preventDefault();
     return;
+  }
+
+  // set tileNum ([1]--[9] num keys)
+  if (49 <= evt.keyCode && evt.keyCode < 58){
+    PDFViewerApplication.setTileNum( evt.keyCode - 48 );
   }
 
   // Some shortcuts should not get handled if a control/input element
@@ -2769,10 +2774,6 @@ function webViewerKeyDown(evt) {
         break;
 
     }
-      // set tileNum ([1]--[9] num keys)
-      if (49 <= evt.keyCode && evt.keyCode < 58){
-	  PDFViewerApplication.setTileNum( evt.keyCode - 48 );
-      }
       
     if (
       turnPage !== 0 &&

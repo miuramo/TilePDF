@@ -218,6 +218,9 @@ class BaseViewer {
 	}
 	this._currentTileNum = val;
 	this._setScale("tileauto", false);
+
+	// setTimeout is necessary for relayouting when vertical scrollbar disappeared
+	setTimeout(this._setScale('tileauto',true), 300);
     }
 
   /**
