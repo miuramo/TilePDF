@@ -220,7 +220,7 @@ class BaseViewer {
 	this._setScale("tileauto", false);
 
 	// 2nd setScale call to fix layout when vertical scrollbar appears
-	this._setScale("tileauto", true);
+	this._setScale("tileauto", false);
 
     }
 
